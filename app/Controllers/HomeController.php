@@ -72,5 +72,48 @@ class HomeController extends BaseController
         }
 
     }
+
+    public function get_data()
+    {
+        $students = new \App\Models\StudentModel();
+        $data['student'] = $students->findAll();
+        return $this->response->setJSON($data);
+    }
+
+    public function view_data()
+    {
+        $students = new \App\Models\StudentModel();
+        $student_id = $this->request->getPost('student_id');
+        $data['student'] = $students->find($student_id);
+        return $this->response->setJSON($data);
+    }
+    public function edit_data()
+    {
+        $students = new \App\Models\StudentModel();
+        $student_id = $this->request->getPost('student_id');
+        $data['student'] = $students->find($student_id);
+        return $this->response->setJSON($data);
+    }
+
+    public function update_data(){
+        $students = new \App\Models\StudentModel();
+        $student_id = $this->request->getPost('id');
+        $data = [
+            'name'=> $this->request->getPost('name'),
+            'email'=> $this->request->getPost('email'),
+            'phone'=> $this->request->getPost('phone'),
+            'course'=> $this->request->getPost('course'),
+        ];
+        $students->update($student_id, $data);
+        $message = ['status' => 'success', 'message' => 'Updated Successfully!'];
+        return $this->response->setJSON($message);
+    }
+
+    public function delete(){
+        $student = new \App\Models\StudentModel();
+        $student->delete($this->request->getPost('stud_id'));
+         $message = ['status' => 'success', 'message' => 'Updated Successfully!'];
+        return $this->response->setJSON($message);
+    }
 }
 
